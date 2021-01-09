@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        .box {
+          cursor: pointer;
+        }
+        .box:before {
+          content: url("plus.png");
+        }
+        .check-box:before {
+          content: url("minus.png"); 
+        }
+        .display1 {
+          display: none;
+        }
+        .display2 {
+          display: block;
+        }
+        .selected{
+          background-color: lightblue;
+        }
+        .unselected{
+          background-color: white;
+        }       
+    </style>
+</head>
+<body>
+        <h1>Дерево</h1>
+        <input type="button" value="Создать" onclick = "create()"/>
+        <input type="button" value="Переименовать" onclick = "rename()"/>
+        <input type="button" value="Удалить" onclick = "remove()"/>
+        <p></p>
+          <span class="box" id="idbox">Корневой элемент</span>
+        <script>
+        var idbox = document.getElementById('idbox');
+        idbox.addEventListener("dblclick", function(f1) {
+          for(var i = 0; i < this.children.length; i++){
+          this.children[i].classList.toggle("display1");
+          };
+          this.classList.toggle("check-box");
+        });
+        var selected = false;
+        idbox.classList.add('unselected');
+        idbox.addEventListener('click', select);
+        idbox.addEventListener('click', function(event){
+            if(event.target != selected){selected.classList.remove('selected');}
+        });
+        function select(event){
+            if (selected){selected.classList.remove('selected');selected.classList.toggle('unselected');}
+            selected = event.target;
+            selected.classList.toggle('selected');
+            selected.classList.toggle('unselected');            
+        };
+        function create(){           
+                elem2 = document.createElement('ul');
+                selected.appendChild(elem2);
+                var text = prompt();                
+                elem = document.createElement('li');
+                elem.textContent = text;               
+                elem.classList.add('unselected');
+                elem.classList.add('box');
+                elem.addEventListener('click', select);
+                elem.addEventListener("dblclick", function(f2) {
+                  f2.stopPropagation();
+                  for(var i = 0; i < this.children.length; i++){
+                    this.children[i].classList.toggle("display1");
+                  };
+                  this.classList.toggle("check-box");
+                });       
+                elem2.appendChild(elem);             
+            };    
+        function rename(){
+            selected.firstChild.textContent = prompt();
+        };
+        function remove(){
+            selected.remove();
+        };
+        </script>
+</body>
+</html>
